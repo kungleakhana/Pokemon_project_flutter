@@ -19,7 +19,7 @@ class _MyWidgetState extends State<PokemonDetail> {
       ),
       body: SingleChildScrollView(
         child: Container(
-          padding: EdgeInsets.all(8),
+          padding: const EdgeInsets.all(8),
           child: Column(
             children: [
               AspectRatio(
@@ -125,21 +125,21 @@ class _MyWidgetState extends State<PokemonDetail> {
                         children: [
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
+                                  color: Color(0xffF3F7FA),
                                   border: Border.all(
-                                      color: Colors.green.withOpacity(0.3)),
+                                      color: Colors.green.withOpacity(0.1)),
                                   borderRadius: BorderRadius.circular(8)),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Weight",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: _buildKeyValue(),
+                                    ),
+                                    SizedBox(
+                                      height: 2,
                                     ),
                                     Text(
                                       widget.pokemonModel.weight ?? "",
@@ -150,22 +150,22 @@ class _MyWidgetState extends State<PokemonDetail> {
                               )),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
+                                  color: Color(0xffF3F7FA),
                                   border: Border.all(
-                                      color: Colors.green.withOpacity(0.3)),
+                                      color: Colors.green.withOpacity(0.1)),
                                   borderRadius: BorderRadius.circular(8)),
                               // color: Colors.green.withOpacity(0.1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Height",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: _buildKeyValue(),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                     Text(
                                       widget.pokemonModel.height ?? "",
@@ -176,22 +176,22 @@ class _MyWidgetState extends State<PokemonDetail> {
                               )),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
+                                  color: Color(0xffF3F7FA),
                                   border: Border.all(
-                                      color: Colors.green.withOpacity(0.3)),
+                                      color: Colors.green.withOpacity(0.1)),
                                   borderRadius: BorderRadius.circular(8)),
                               // color: Colors.green.withOpacity(0.1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Speed",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: _buildKeyValue(),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                     Text(
                                       widget.pokemonModel.speed.toString(),
@@ -202,22 +202,21 @@ class _MyWidgetState extends State<PokemonDetail> {
                               )),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
+                                  color: Color(0xffF3F7FA),
                                   border: Border.all(
-                                      color: Colors.green.withOpacity(0.3)),
+                                      color: Colors.green.withOpacity(0.1)),
                                   borderRadius: BorderRadius.circular(8)),
-                              // color: Colors.green.withOpacity(0.1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "HP",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: _buildKeyValue(),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                     Text(
                                       widget.pokemonModel.hp.toString(),
@@ -228,22 +227,21 @@ class _MyWidgetState extends State<PokemonDetail> {
                               )),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
+                                  color: Color(0xffF3F7FA),
                                   border: Border.all(
-                                      color: Colors.green.withOpacity(0.3)),
+                                      color: Colors.green.withOpacity(0.1)),
                                   borderRadius: BorderRadius.circular(8)),
-                              // color: Colors.green.withOpacity(0.1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Attack",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: _buildKeyValue(),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                     Text(
                                       widget.pokemonModel.attack.toString(),
@@ -254,22 +252,21 @@ class _MyWidgetState extends State<PokemonDetail> {
                               )),
                           Container(
                               decoration: BoxDecoration(
-                                  color: Colors.green.withOpacity(0.5),
+                                  color: Color(0xffF3F7FA),
                                   border: Border.all(
-                                      color: Colors.green.withOpacity(0.3)),
+                                      color: Colors.green.withOpacity(0.1)),
                                   borderRadius: BorderRadius.circular(8)),
-                              // color: Colors.green.withOpacity(0.1),
                               child: Padding(
                                 padding: const EdgeInsets.all(8.0),
                                 child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
                                     Text(
                                       "Defense",
-                                      style: TextStyle(
-                                        fontSize: 18,
-                                        color: Colors.black,
-                                        fontWeight: FontWeight.w500,
-                                      ),
+                                      style: _buildKeyValue(),
+                                    ),
+                                    SizedBox(
+                                      height: 5,
                                     ),
                                     Text(
                                       widget.pokemonModel.defense.toString(),
@@ -296,5 +293,13 @@ _buildValuePrice() {
   return TextStyle(
       fontSize: 14,
       fontWeight: FontWeight.w600,
-      color: Colors.black.withOpacity(0.8));
+      color: Colors.green.withOpacity(0.8));
+}
+
+_buildKeyValue() {
+  return TextStyle(
+    fontSize: 18,
+    color: Colors.black,
+    fontWeight: FontWeight.w400,
+  );
 }

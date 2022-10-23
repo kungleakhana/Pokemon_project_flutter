@@ -7,9 +7,15 @@ import 'package:pokemon_project/screen/search_result_page.dart';
 import 'package:pokemon_project/screen/splash_screen.dart';
 import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
 
-class HomeScreen extends StatelessWidget {
+class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);
 
+  @override
+  State<HomeScreen> createState() => _HomeScreenState();
+}
+
+class _HomeScreenState extends State<HomeScreen> {
+  bool isClick = false;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
@@ -22,7 +28,6 @@ class HomeScreen extends StatelessWidget {
       } else if (context.read<PokemonBloc>().pokemonList.isEmpty) {
         return const SplashScreen();
       } else {
-        return SplashScreen();
         return Scaffold(
           appBar: AppBar(
             backgroundColor: Colors.green,
@@ -38,59 +43,14 @@ class HomeScreen extends StatelessWidget {
           body: ListView.builder(
             itemCount: context.read<PokemonBloc>().pokemonList.length,
             itemBuilder: (context, index) {
-              return Column(
-                children: [
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
-                    child: Container(
-                      height: 150,
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        border:
-                            Border.all(color: Colors.green.withOpacity(0.3)),
-                        color: Colors.grey[100],
-                        borderRadius: BorderRadius.circular(15),
-                      ),
-                      child: CartWidget(
-                        pokemonModel:
-                            context.read<PokemonBloc>().pokemonList[index],
-                      ),
-                    ),
-                  ),
-                ],
+              return PokemonCartWidget(
+                pokemonModel: context.read<PokemonBloc>().pokemonList[index],
               );
             },
           ),
         );
       }
     });
-  }
-}
-
-class ChildSizeNotifier extends StatelessWidget {
-  final ValueNotifier<Size> notifier = ValueNotifier(const Size(0, 0));
-  final Widget Function(BuildContext context, Size size, Widget? child) builder;
-  final Widget child;
-
-  ChildSizeNotifier({
-    Key? key,
-    required this.builder,
-    required this.child,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
-    WidgetsBinding.instance.addPostFrameCallback(
-      (_) {
-        notifier.value = (context.findRenderObject() as RenderBox).size;
-      },
-    );
-    return ValueListenableBuilder(
-      valueListenable: notifier,
-      builder: builder,
-      child: child,
-    );
   }
 }
 

@@ -34,7 +34,7 @@ class SearchResultPage extends StatelessWidget {
                         color: Colors.grey[100],
                         borderRadius: BorderRadius.circular(15),
                       ),
-                      child: CartWidget(
+                      child: PokemonCartWidget(
                         pokemonModel: state.pokemonList[index],
                       ),
                     ),
