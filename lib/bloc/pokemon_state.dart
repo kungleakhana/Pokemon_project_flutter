@@ -17,6 +17,11 @@ class PokemonSearchSucessState extends PokemonState {
   PokemonSearchSucessState({required this.pokemonList});
 }
 
+class PokemonFilterSuccess extends PokemonState {
+   final List<String> pokemonType;
+  PokemonFilterSuccess({required this.pokemonType});
+}
+
 class PokemonErrorState extends PokemonState {
   final String messageError;
 

@@ -5,6 +5,7 @@ import 'package:pokemon_project/bloc/pokemon_event.dart';
 import 'package:pokemon_project/bloc/pokemon_state.dart';
 import 'package:pokemon_project/screen/search_result_page.dart';
 import 'package:pokemon_project/screen/splash_screen.dart';
+import 'package:pokemon_project/screen/widgets/drawer_filter_widget.dart';
 import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -15,6 +16,7 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
   bool isClick = false;
   @override
   Widget build(BuildContext context) {
@@ -29,24 +31,35 @@ class _HomeScreenState extends State<HomeScreen> {
         return const SplashScreen();
       } else {
         return Scaffold(
+          key: _scaffoldKey,
+          drawer: DrawerWidget(),
           appBar: AppBar(
+            leading: IconButton(
+              icon: Icon(Icons.filter_list_alt),
+              onPressed: () {
+                _scaffoldKey.currentState?.openDrawer();
+              },
+            ),
             backgroundColor: Colors.green,
             title: const Text("Pokemon"),
             actions: [
               IconButton(
                   onPressed: () {
+                    print(context.read<PokemonBloc>().pokemonType.length);
                     showSearch(context: context, delegate: _SearchDelegation());
                   },
                   icon: const Icon(Icons.search))
             ],
           ),
-          body: ListView.builder(
-            itemCount: context.read<PokemonBloc>().pokemonList.length,
-            itemBuilder: (context, index) {
-              return PokemonCartWidget(
-                pokemonModel: context.read<PokemonBloc>().pokemonList[index],
-              );
-            },
+          body: Container(
+            child: ListView.builder(
+              itemCount: context.read<PokemonBloc>().pokemonList.length,
+              itemBuilder: (context, index) {
+                return PokemonCartWidget(
+                  pokemonModel: context.read<PokemonBloc>().pokemonList[index],
+                );
+              },
+            ),
           ),
         );
       }

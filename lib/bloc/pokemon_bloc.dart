@@ -6,13 +6,25 @@ import 'package:pokemon_project/repository/pokemon_repository.dart';
 
 class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
   final PokemonRepository pokemonRepository;
+  List<PokemonModel> _originatedPokemonList = [];
   List<PokemonModel> pokemonList = [];
+  List<String> pokemonType = [];
+  List<String> filterTypes = [];
   PokemonBloc({required this.pokemonRepository}) : super(PokemonInitial()) {
     on<GetPokemonEvent>((event, emit) async {
       try {
         emit(PokemonLoadingState());
         await Future.delayed(const Duration(seconds: 1));
-        pokemonList = await pokemonRepository.getAllPokemon();
+        _originatedPokemonList = await pokemonRepository.getAllPokemon();
+        pokemonList = _originatedPokemonList;
+        for (var n in _originatedPokemonList) {
+          for (var i in n.typeofpokemon!) {
+            if (!pokemonType.contains(i)) {
+              pokemonType.add(i);
+            }
+          }
+        }
+
         emit(PokemonSucessState());
       } catch (e) {
         emit(PokemonErrorState(messageError: e.toString()));
@@ -31,21 +43,31 @@ class PokemonBloc extends Bloc<PokemonEvent, PokemonState> {
         emit(PokemonErrorState(messageError: e.toString()));
       }
     });
-  }
+    on<FilterTypeEvent>(
+      (event, emit) async {
+        try {
+          filterTypes = event.typeList;
+          emit(PokemonLoadingState());
+          if (event.typeList.isNotEmpty) {
+            List<PokemonModel> pokemonList = this.pokemonList.where((e) {
+              bool isContained = false;
+              e.typeofpokemon?.forEach((t) {
+                if (event.typeList.contains(t)) {
+                  isContained = true;
+                }
+              });
+              return isContained;
+            }).toList();
+            this.pokemonList = pokemonList;
+          } else {
+          pokemonList = _originatedPokemonList;
+          }
 
-  // Stream<PokemonState> mapEventToState(
-  //   PokemonEvent event,
-  // ) async* {
-  //   if (event is GetPokemonEvent) {
-  //     yield PokemonLoadingState();
-  //     try {
-  //       List<PokemonModel> listPokemon =
-  //           await pokemonRepository.getAllPokemon();
-  //       yield PokemonSucessState(data: listPokemon);
-  //     } catch (ex) {
-  //       print(ex);
-  //       yield PokemonErrorState(messageError: ex.toString());
-  //     }
-  //   }
-  // }
+          emit(PokemonFilterSuccess(pokemonType: pokemonType));
+        } catch (e) {
+          emit(PokemonErrorState(messageError: e.toString()));
+        }
+      },
+    );
+  }
 }
