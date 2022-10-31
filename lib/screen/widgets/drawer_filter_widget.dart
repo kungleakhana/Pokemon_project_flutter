@@ -33,11 +33,12 @@ class _DrawerWidgetState extends State<DrawerWidget> {
             padding: EdgeInsets.zero,
             children: [
               Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 child: const Text(
                   "Filter By Type:",
                   style: TextStyle(
-                    fontSize: 15,
+                    fontSize: 20,
                     fontWeight: FontWeight.w600,
                   ),
                 ),
@@ -87,36 +88,45 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                           )),
                 ),
               ),
-              TextButton(
-                onPressed: () {
-                  setState(() {
-                    context
-                        .read<PokemonBloc>()
-                        .add(FilterTypeEvent(typeList: selectedType));
-                  });
-                  Navigator.of(context).pop();
-                },
-                style: TextButton.styleFrom(primary: Colors.white),
-                child: Container(
-                  padding: EdgeInsets.all(5),
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(5),
-                    boxShadow: const [
-                      BoxShadow(
-                        color: Colors.grey,
-                        spreadRadius: 0.1,
-                        blurRadius: 0.7,
-                        offset: Offset(0, 0.8), // changes position of shadow
+              SizedBox(
+                height: 20,
+              ),
+              Row(
+                children: [
+                  TextButton(
+                    onPressed: () {
+                      setState(() {
+                        context
+                            .read<PokemonBloc>()
+                            .add(FilterTypeEvent(typeList: selectedType));
+                      });
+                      Navigator.of(context).pop();
+                    },
+                    child: Container(
+                      padding: EdgeInsets.all(5),
+                      decoration: BoxDecoration(
+                        color: Colors.blue,
+                        borderRadius: BorderRadius.circular(5),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            spreadRadius: 0.1,
+                            blurRadius: 0.7,
+                            offset:
+                                Offset(0, 0.8), // changes position of shadow
+                          ),
+                        ],
                       ),
-                    ],
+                      child: Text(
+                        "Submit",
+                        style: TextStyle(
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontSize: 20),
+                      ),
+                    ),
                   ),
-                  child: Text(
-                    "Submit",
-                    style: TextStyle(
-                        fontWeight: FontWeight.normal, color: Colors.black),
-                  ),
-                ),
+                ],
               )
             ],
           ),
