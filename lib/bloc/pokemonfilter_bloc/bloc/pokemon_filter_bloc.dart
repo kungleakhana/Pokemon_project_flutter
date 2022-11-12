@@ -26,14 +26,14 @@ class PokemonFilterBloc extends Bloc<FilterTypeEvent, PokemonFilterState> {
             });
             return isContained;
           }).toList();
-          // var pokemonFilterList = pokemonList;
+          var pokemonFilterList = pokemonList;
             emit(PokemonFilterLoaded(
               pokemonFilterList: pokemonList,
               filterType: filterType,
               listOriginal: listOriginal,
               retriveedList: retriveedList));
         }else{
-          // var pokemonFilterList = listOriginal;
+          var pokemonFilterList = listOriginal;
            emit(PokemonFilterLoaded(
               pokemonFilterList: listOriginal,
               filterType: filterType,

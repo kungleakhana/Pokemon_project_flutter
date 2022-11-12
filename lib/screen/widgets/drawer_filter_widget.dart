@@ -61,7 +61,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     spacing: 5,
                     runSpacing: 4,
                     children: List.generate(
-                        state.pokemonFilterList.length,
+                        state.filterType.length,
                         (index) => InkWell(
                               onTap: () {
                                 setState(() {
@@ -77,7 +77,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                               child: Container(
                                 decoration: BoxDecoration(
                                   color: selectedType.contains(
-                                          state.pokemonFilterList[index])
+                                          state.filterType[index])
                                       ? Colors.green.withOpacity(0.5)
                                       : Colors.grey,
                                   borderRadius: BorderRadius.circular(5),

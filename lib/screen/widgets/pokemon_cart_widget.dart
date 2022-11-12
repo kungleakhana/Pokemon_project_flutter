@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_project/bloc/addtofavourite_bloc/bloc/add_to_favourite_bloc.dart';
 import 'package:pokemon_project/models/pokemon_model.dart';
 import 'package:pokemon_project/screen/pokemon_detail.dart';
 
 class PokemonCartWidget extends StatefulWidget {
   final PokemonModel pokemonModel;
+
   String? isActive;
   PokemonCartWidget({super.key, required this.pokemonModel, this.isActive});
 
@@ -79,16 +82,35 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                                 ),
                               ),
                             ),
-                            Container(
-                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.05),shape: BoxShape.circle),
-                              child: IconButton(
-                                  onPressed: () {
-                                    setState(() {
-                                       isFavourite = !isFavourite;
-                                    });
-                                  },
-                                  icon: Icon(Icons.favorite, color: !isFavourite ? Colors.white : Colors.red,)),
-                            )
+                            BlocBuilder<AddToFavouriteBloc,
+                                    AddToFavouriteState>(
+                                builder: ((context, state) {
+                              final stateFav = state is AddToFavouriteLoaded;
+                              if (stateFav) {
+                                return Container(
+                                  decoration: BoxDecoration(
+                                      color: Colors.black.withOpacity(0.05),
+                                      shape: BoxShape.circle),
+                                  child: IconButton(
+                                      onPressed: () {
+                                        setState(() {
+                                          isFavourite = !isFavourite;
+                                          final readBloc = context
+                                              .read<AddToFavouriteBloc>();
+                                          readBloc.add(AddToWishListEvent(pokemon: widget.pokemonModel));
+                                        });
+                                      },
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: !isFavourite
+                                            ? Colors.white
+                                            : Colors.red,
+                                      )),
+                                );
+                              } else {
+                                return Container();
+                              }
+                            })),
                           ],
                         ),
                         Text(

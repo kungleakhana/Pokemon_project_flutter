@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:pokemon_project/bloc/addtofavourite_bloc/bloc/add_to_favourite_bloc.dart';
 import 'package:pokemon_project/bloc/pokemonfilter_bloc/bloc/pokemon_filter_bloc.dart';
 import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
 import 'package:pokemon_project/bloc/pokmonseach_bloc/bloc/pokemon_seach_bloc.dart';
@@ -28,6 +29,9 @@ class MyApp extends StatelessWidget {
         ),
          BlocProvider<PokemonFilterBloc>(
           create: (BuildContext context) => PokemonFilterBloc(),
+        ),
+          BlocProvider<AddToFavouriteBloc>(
+          create: (BuildContext context) => AddToFavouriteBloc(),
         ),
       ],
       child:MaterialApp(

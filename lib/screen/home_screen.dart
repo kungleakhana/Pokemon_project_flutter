@@ -2,16 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_project/bloc/pokemonfilter_bloc/bloc/pokemon_filter_bloc.dart';
 import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
 import 'package:pokemon_project/bloc/pokmonseach_bloc/bloc/pokemon_seach_bloc.dart';
 import 'package:pokemon_project/models/pokemon_model.dart';
 import 'package:pokemon_project/screen/search_result_page.dart';
-
-// import 'package:pokemon_project/screen/search_result_page.dart';
 import 'package:pokemon_project/screen/splash_screen.dart';
 import 'package:pokemon_project/screen/widgets/drawer_filter_widget.dart';
-// import 'package:pokemon_project/screen/widgets/drawer_filter_widget.dart';
 import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
 import 'package:pokemon_project/screen/wishlist_screen.dart';
 
@@ -43,7 +39,7 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (state is PokemonLoaded) {
         return Scaffold(
           key: _scaffoldKey,
-          drawer: DrawerWidget(filterList: state.pokemonModel,  ),
+          drawer: DrawerWidget(filterList: state.pokemonModel, ),
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.filter_list_alt),

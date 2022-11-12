@@ -1,16 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_project/bloc/pokmonseach_bloc/bloc/pokemon_seach_bloc.dart';
+import 'package:pokemon_project/models/pokemon_model.dart';
 
 import 'widgets/pokemon_cart_widget.dart';
 
 class SearchResultPage extends StatelessWidget {
-  const SearchResultPage({super.key});
+
+  const SearchResultPage({super.key,});
+
+  
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PokemonSeachBloc, PokemonSeachState>(builder: (context, state) {
+      body: BlocBuilder<PokemonSeachBloc, PokemonSeachState>(
+          builder: (context, state) {
         if (state is PokemonSeachLoading) {
           return const CircularProgressIndicator();
         } else if (state is PokemonSeachLoaded) {
@@ -35,6 +40,7 @@ class SearchResultPage extends StatelessWidget {
                       ),
                       child: PokemonCartWidget(
                         pokemonModel: state.pokemonSearchList[index],
+                      
                       ),
                     ),
                   ),
