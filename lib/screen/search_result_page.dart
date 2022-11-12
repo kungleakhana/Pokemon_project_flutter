@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_project/bloc/pokemon_bloc.dart';
-import 'package:pokemon_project/bloc/pokemon_state.dart';
+import 'package:pokemon_project/bloc/pokmonseach_bloc/bloc/pokemon_seach_bloc.dart';
 
 import 'widgets/pokemon_cart_widget.dart';
 
@@ -11,17 +10,17 @@ class SearchResultPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
-        if (state is PokemonLoadingState) {
+      body: BlocBuilder<PokemonSeachBloc, PokemonSeachState>(builder: (context, state) {
+        if (state is PokemonSeachLoading) {
           return const CircularProgressIndicator();
-        } else if (state is PokemonSearchSucessState) {
-          if (state.pokemonList.isEmpty) {
+        } else if (state is PokemonSeachLoaded) {
+          if (state.pokemonSearchList.isEmpty) {
             return const Center(
               child: Text("No data"),
             );
           }
           return ListView.builder(
-            itemCount: state.pokemonList.length,
+            itemCount: state.pokemonSearchList.length,
             itemBuilder: (context, index) {
               return Column(
                 children: [
@@ -35,7 +34,7 @@ class SearchResultPage extends StatelessWidget {
                         borderRadius: BorderRadius.circular(15),
                       ),
                       child: PokemonCartWidget(
-                        pokemonModel: state.pokemonList[index],
+                        pokemonModel: state.pokemonSearchList[index],
                       ),
                     ),
                   ),
@@ -43,7 +42,7 @@ class SearchResultPage extends StatelessWidget {
               );
             },
           );
-        } else if (state is PokemonErrorState) {
+        } else if (state is PokemonSeachError) {
           return Center(
             child: Text(state.messageError),
           );

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_project/bloc/pokemon_bloc.dart';
-import 'package:pokemon_project/bloc/pokemon_event.dart';
+import 'package:pokemon_project/bloc/pokemonfilter_bloc/bloc/pokemon_filter_bloc.dart';
+import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
+import 'package:pokemon_project/bloc/pokmonseach_bloc/bloc/pokemon_seach_bloc.dart';
 import 'package:pokemon_project/repository/pokemon_repository.dart';
 import 'package:pokemon_project/screen/home_screen.dart';
 
@@ -15,17 +16,40 @@ class MyApp extends StatelessWidget {
   // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => PokemonBloc(pokemonRepository: PokemonRepository())
-        ..add(GetPokemonEvent()),
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Flutter Demo',
-        theme: ThemeData(
-          primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+         BlocProvider<PokemonListBloc>(
+          create: (BuildContext context) =>
+              PokemonListBloc()..add(GetPokemon()),
         ),
-        home: const HomeScreen(),
-      ),
+         BlocProvider<PokemonSeachBloc>(
+          create: (BuildContext context) =>
+              PokemonSeachBloc(),
+        ),
+         BlocProvider<PokemonFilterBloc>(
+          create: (BuildContext context) => PokemonFilterBloc(),
+        ),
+      ],
+      child:MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Flutter Demo',
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+          ),
+          home: const HomeScreen(),
+        ), 
+      // child: BlocProvider(
+      //   create: (context) => PokemonListBloc()
+      //     ..add(GetPokemon()),
+      //   child: MaterialApp(
+      //     debugShowCheckedModeBanner: false,
+      //     title: 'Flutter Demo',
+      //     theme: ThemeData(
+      //       primarySwatch: Colors.blue,
+      //     ),
+      //     home: const HomeScreen(),
+      //   ),
+      // ),
     );
   }
 }

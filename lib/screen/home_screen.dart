@@ -1,15 +1,24 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_project/bloc/pokemon_bloc.dart';
-import 'package:pokemon_project/bloc/pokemon_event.dart';
-import 'package:pokemon_project/bloc/pokemon_state.dart';
+import 'package:pokemon_project/bloc/pokemonfilter_bloc/bloc/pokemon_filter_bloc.dart';
+import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
+import 'package:pokemon_project/bloc/pokmonseach_bloc/bloc/pokemon_seach_bloc.dart';
+import 'package:pokemon_project/models/pokemon_model.dart';
 import 'package:pokemon_project/screen/search_result_page.dart';
+
+// import 'package:pokemon_project/screen/search_result_page.dart';
 import 'package:pokemon_project/screen/splash_screen.dart';
 import 'package:pokemon_project/screen/widgets/drawer_filter_widget.dart';
+// import 'package:pokemon_project/screen/widgets/drawer_filter_widget.dart';
 import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
+import 'package:pokemon_project/screen/wishlist_screen.dart';
 
 class HomeScreen extends StatefulWidget {
-  const HomeScreen({Key? key}) : super(key: key);
+  const HomeScreen({
+    Key? key,
+  }) : super(key: key);
 
   @override
   State<HomeScreen> createState() => _HomeScreenState();
@@ -17,57 +26,73 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+
   bool isClick = false;
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<PokemonBloc, PokemonState>(builder: (context, state) {
-      if (state is PokemonErrorState) {
+    return BlocBuilder<PokemonListBloc, PokemonListState>(
+        builder: (context, state) {
+      if (state is PokemonListError) {
         return Scaffold(
           body: Center(
             child: Text(state.messageError),
           ),
         );
-      } else if (context.read<PokemonBloc>().pokemonList.isEmpty) {
+      } else if (state is PokemonListLoading) {
         return const SplashScreen();
-      } else {
+      } else if (state is PokemonLoaded) {
         return Scaffold(
           key: _scaffoldKey,
-          drawer: DrawerWidget(),
+          drawer: DrawerWidget(filterList: state.pokemonModel,  ),
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.filter_list_alt),
               onPressed: () {
+              
                 _scaffoldKey.currentState?.openDrawer();
               },
             ),
             backgroundColor: Colors.green,
-            title: const Text("Pokemon"),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Text("Pokemon"),
+                IconButton(
+                    onPressed: () {
+                      Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => const WishListScreen()));
+                    },
+                    icon: Icon(Icons.favorite))
+              ],
+            ),
             actions: [
               IconButton(
                   onPressed: () {
-                    print(context.read<PokemonBloc>().pokemonType.length);
-                    showSearch(context: context, delegate: _SearchDelegation());
+                    showSearch(context: context, delegate: SearchDelegation(searchList: state.pokemonModel));
                   },
                   icon: const Icon(Icons.search))
             ],
           ),
-          body: Container(
-            child: ListView.builder(
-              itemCount: context.read<PokemonBloc>().pokemonList.length,
-              itemBuilder: (context, index) {
-                return PokemonCartWidget(
-                  pokemonModel: context.read<PokemonBloc>().pokemonList[index],
-                );
-              },
-            ),
+          body: ListView.builder(
+            itemCount: state.pokemonModel.length,
+            itemBuilder: (context, index) {
+              return PokemonCartWidget(
+                pokemonModel: state.pokemonModel[index],
+              );
+            },
           ),
         );
+      } else {
+        return const SizedBox();
       }
     });
   }
 }
 
-class _SearchDelegation extends SearchDelegate {
+
+class SearchDelegation extends SearchDelegate {
+   List<PokemonModel> searchList = [];
+  SearchDelegation({required this.searchList});
   @override
   List<Widget>? buildActions(BuildContext context) {
     return [];
@@ -84,13 +109,13 @@ class _SearchDelegation extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    context.read<PokemonBloc>().add(SearchPokemonEvent(pokemonName: query));
+    context.read<PokemonSeachBloc>().add(SearchPokemonEvent(pokemonName: query, pokemonList: searchList));
     return const SearchResultPage();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    context.read<PokemonBloc>().add(SearchPokemonEvent(pokemonName: query));
+    context.read<PokemonSeachBloc>().add(SearchPokemonEvent(pokemonName: query,  pokemonList: searchList));
     return const SearchResultPage();
   }
 }

@@ -13,6 +13,8 @@ class PokemonCartWidget extends StatefulWidget {
 
 class _PokemonCartWidgetState extends State<PokemonCartWidget> {
   @override
+  bool isFavourite = false;
+
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -27,7 +29,7 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Container(
             height: 150,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.green.withOpacity(0.3)),
               color: Colors.grey[100],
@@ -59,17 +61,35 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(vertical: 5),
-                          child: Text(
-                            widget.pokemonModel.name ?? "",
-                            style: const TextStyle(
-                              fontSize: 18,
-                              fontWeight: FontWeight.w600,
-                              overflow: TextOverflow.ellipsis,
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: Text(
+                                  widget.pokemonModel.name ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  maxLines: 2,
+                                ),
+                              ),
                             ),
-                            maxLines: 2,
-                          ),
+                            Container(
+                              decoration: BoxDecoration(color: Colors.black.withOpacity(0.05),shape: BoxShape.circle),
+                              child: IconButton(
+                                  onPressed: () {
+                                    setState(() {
+                                       isFavourite = !isFavourite;
+                                    });
+                                  },
+                                  icon: Icon(Icons.favorite, color: !isFavourite ? Colors.white : Colors.red,)),
+                            )
+                          ],
                         ),
                         Text(
                           "ID : ${widget.pokemonModel.id ?? " "} ",
@@ -125,7 +145,7 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),
