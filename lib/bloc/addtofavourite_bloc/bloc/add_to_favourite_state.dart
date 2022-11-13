@@ -13,7 +13,7 @@ class AddToFavouriteLoading extends AddToFavouriteState {}
 
 class AddToFavouriteLoaded extends AddToFavouriteState {
   final List<PokemonModel> pokemonModel;
-  const AddToFavouriteLoaded({required this.pokemonModel});
+  const AddToFavouriteLoaded( this.pokemonModel);
 }
 
 class AddToFavouriterError extends AddToFavouriteState {

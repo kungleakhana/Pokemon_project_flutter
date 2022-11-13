@@ -17,12 +17,9 @@ class AddToFavouriteBloc
       emit(AddToFavouriteLoading());
       await Future.delayed(const Duration(seconds: 1));
       final  getPokemon = await _apiRepository.getAllPokemon();
-      if(getPokemon.contains(event.pokemon) ){
-       emit(AddToFavouriteLoaded(pokemonModel: List.from(getPokemon)..remove(event.pokemon)));
-      }else{
-        emit(AddToFavouriteLoaded(
-              pokemonModel: List.from(getPokemon)..add(event.pokemon)));
-      }
+      
+        emit(AddToFavouriteLoaded(getPokemon ));
+   
       
       } catch (e) {
         emit(AddToFavouriterError(messageError: e.toString()));

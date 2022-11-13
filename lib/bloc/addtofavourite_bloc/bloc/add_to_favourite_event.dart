@@ -8,6 +8,6 @@ abstract class AddToFavouriteEvent extends Equatable {
 }
 
 class AddToWishListEvent extends AddToFavouriteEvent {
-  final PokemonModel pokemon;
-  AddToWishListEvent({required this.pokemon});
+ 
+  AddToWishListEvent();
 }

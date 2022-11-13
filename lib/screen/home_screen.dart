@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const WishListScreen()));
+                          builder: (context) =>  WishListScreen()));
                     },
                     icon: Icon(Icons.favorite))
               ],

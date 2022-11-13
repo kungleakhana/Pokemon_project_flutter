@@ -85,8 +85,9 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                             BlocBuilder<AddToFavouriteBloc,
                                     AddToFavouriteState>(
                                 builder: ((context, state) {
-                              final stateFav = state is AddToFavouriteLoaded;
-                              if (stateFav) {
+                              final id = widget.pokemonModel;
+
+                              if (state is AddToFavouriteLoaded) {
                                 return Container(
                                   decoration: BoxDecoration(
                                       color: Colors.black.withOpacity(0.05),
@@ -95,9 +96,7 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                                       onPressed: () {
                                         setState(() {
                                           isFavourite = !isFavourite;
-                                          final readBloc = context
-                                              .read<AddToFavouriteBloc>();
-                                          readBloc.add(AddToWishListEvent(pokemon: widget.pokemonModel));
+                                          print(widget.pokemonModel);
                                         });
                                       },
                                       icon: Icon(

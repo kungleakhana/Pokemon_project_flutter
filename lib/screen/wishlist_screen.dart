@@ -1,18 +1,27 @@
+// ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
 import 'package:pokemon_project/bloc/addtofavourite_bloc/bloc/add_to_favourite_bloc.dart';
+import 'package:pokemon_project/models/pokemon_model.dart';
 import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
 
 class WishListScreen extends StatefulWidget {
-  const WishListScreen({super.key});
+
+  const WishListScreen({
+    Key? key,
+   
+  }) : super(key: key);
 
   @override
   State<WishListScreen> createState() => _WishListScreenState();
 }
 
 class _WishListScreenState extends State<WishListScreen> {
+  
   @override
   Widget build(BuildContext context) {
+
     return BlocBuilder<AddToFavouriteBloc, AddToFavouriteState>(
       builder: (context, state) {
         if (state is AddToFavouriterError) {
