@@ -5,9 +5,9 @@ import 'package:pokemon_project/models/pokemon_model.dart';
 
 class DrawerWidget extends StatefulWidget {
   List<PokemonModel> filterList = [];
-
-
-  DrawerWidget({required this.filterList,  super.key});
+  List<String> typeofPokemon = [];
+  DrawerWidget(
+      {required this.filterList, required this.typeofPokemon, super.key});
 
   @override
   State<DrawerWidget> createState() => _DrawerWidgetState();
@@ -19,18 +19,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
 
   @override
   void initState() {
-    context
-        .read<PokemonFilterBloc>()
-        .add(FilterTypeEvent(typeList: selectedType, listPokemon: widget.filterList));
-
-    // super.initState();
+    super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    context.read<PokemonFilterBloc>().add(FilterTypeEvent(
+          typeList: widget.typeofPokemon,
+          listPokemon: widget.filterList,
+        ));
     return BlocBuilder<PokemonFilterBloc, PokemonFilterState>(
         builder: (context, state) {
-      print(state.toString());
       if (state is PokemonFilterError) {
         return Text(state.messageError);
       }
@@ -38,13 +37,11 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         return Drawer(
           child: SafeArea(
             child: ListView(
-              // Important: Remove any padding from the ListView.
               padding: EdgeInsets.zero,
               children: [
-                Padding(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-                  child: const Text(
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                  child: Text(
                     "Filter By Type:",
                     style: TextStyle(
                       fontSize: 20,
@@ -61,38 +58,39 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     spacing: 5,
                     runSpacing: 4,
                     children: List.generate(
-                        state.filterType.length,
+                        widget.typeofPokemon.length,
                         (index) => InkWell(
                               onTap: () {
                                 setState(() {
                                   if (selectedType
-                                      .contains(state.filterType[index])) {
+                                      .contains(widget.typeofPokemon[index])) {
                                     selectedType
-                                        .remove(state.filterType[index]);
+                                        .remove(widget.typeofPokemon[index]);
                                   } else {
-                                    selectedType.add(state.filterType[index]);
+                                    selectedType
+                                        .add(widget.typeofPokemon[index]);
                                   }
                                 });
                               },
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: selectedType.contains(
-                                          state.filterType[index])
+                                  color: selectedType
+                                          .contains(state.filterType[index])
                                       ? Colors.green.withOpacity(0.5)
                                       : Colors.grey,
                                   borderRadius: BorderRadius.circular(5),
                                 ),
-                                padding: EdgeInsets.symmetric(
+                                padding: const EdgeInsets.symmetric(
                                     vertical: 3, horizontal: 10),
                                 child: Text(
                                   state.filterType[index],
-                                  style: TextStyle(color: Colors.black),
+                                  style: const TextStyle(color: Colors.black),
                                 ),
                               ),
                             )),
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Row(
@@ -100,14 +98,17 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                     TextButton(
                       onPressed: () {
                         setState(() {
-                          context.read<PokemonFilterBloc>().add(FilterTypeEvent(
-                              typeList: selectedType,
-                              listPokemon: widget.filterList));
+                          context.read<PokemonFilterBloc>().add(
+                                FilterTypeEvent(
+                                  typeList: selectedType,
+                                  listPokemon: widget.filterList,
+                                ),
+                              );
                         });
                         Navigator.of(context).pop();
                       },
                       child: Container(
-                        padding: EdgeInsets.all(5),
+                        padding: const EdgeInsets.all(5),
                         decoration: BoxDecoration(
                           color: Colors.blue,
                           borderRadius: BorderRadius.circular(5),
@@ -121,12 +122,13 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                             ),
                           ],
                         ),
-                        child: Text(
+                        child: const Text(
                           "Submit",
                           style: TextStyle(
-                              fontWeight: FontWeight.normal,
-                              color: Colors.white,
-                              fontSize: 20),
+                            fontWeight: FontWeight.normal,
+                            color: Colors.white,
+                            fontSize: 20,
+                          ),
                         ),
                       ),
                     ),
@@ -137,14 +139,9 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           ),
         );
       } else {
-        return Text("hello");
+        return const Text("hello");
         // }
       }
-      // if (state is PokemonFilterLoading) {
-      //   return CircularProgressIndicator();
-      // } else {
-      //   return Text("hello");
-      // }
     });
   }
 }

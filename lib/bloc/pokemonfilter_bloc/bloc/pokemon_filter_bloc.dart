@@ -1,6 +1,6 @@
+// ignore: depend_on_referenced_packages
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
 import 'package:pokemon_project/models/pokemon_model.dart';
 
 part 'pokemon_filter_event.dart';
@@ -13,36 +13,46 @@ class PokemonFilterBloc extends Bloc<FilterTypeEvent, PokemonFilterState> {
       try {
         var filterType = event.typeList;
         var listOriginal = <PokemonModel>[];
-        var retriveedList  = <String>[];
+        var retriveedList = <String>[];
 
         emit(PokemonFilterLoading());
         if (event.typeList.isNotEmpty) {
-          var pokemonList = event.listPokemon.where((element) {
-            bool isContained = false;
-            element.typeofpokemon?.forEach((t) {
-              if (event.typeList.contains(t)) {
-                isContained = true;
+          List<PokemonModel> _filterList = [];
+          for (var pokemonItem in event.listPokemon) {
+            pokemonItem.typeofpokemon?.forEach((type) {
+              if (event.typeList.contains(type)) {
+                _filterList.add(pokemonItem);
               }
             });
-            return isContained;
-          }).toList();
-          var pokemonFilterList = pokemonList;
-            emit(PokemonFilterLoaded(
-              pokemonFilterList: pokemonList,
-              filterType: filterType,
-              listOriginal: listOriginal,
-              retriveedList: retriveedList));
-        }else{
-          var pokemonFilterList = listOriginal;
-           emit(PokemonFilterLoaded(
-              pokemonFilterList: listOriginal,
-              filterType: filterType,
-              listOriginal: listOriginal,
-              retriveedList: retriveedList));
-        }
-        
+          }
+          var data = _filterList.toSet().toList();
 
-         
+          // var pokemonList = event.listPokemon.where((element) {
+          //   bool isContained = false;
+          //   element.typeofpokemon?.forEach((t) {
+          //     if (event.typeList.contains(t)) {
+          //       isContained = true;
+          //     }
+          //   });
+          //   return isContained;
+          // }).toList();
+          var pokemonFilterList = _filterList.toSet().toList();
+
+          emit(PokemonFilterLoaded(
+            pokemonFilterList: pokemonFilterList,
+            filterType: filterType,
+            listOriginal: listOriginal,
+            retriveedList: retriveedList,
+          ));
+        } else {
+          var pokemonFilterList = listOriginal;
+          emit(PokemonFilterLoaded(
+            pokemonFilterList: listOriginal,
+            filterType: filterType,
+            listOriginal: listOriginal,
+            retriveedList: retriveedList,
+          ));
+        }
       } catch (e) {
         emit(PokemonFilterError(messageError: e.toString()));
       }

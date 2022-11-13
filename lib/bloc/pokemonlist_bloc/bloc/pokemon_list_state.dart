@@ -13,7 +13,8 @@ class PokemonListLoading extends PokemonListState {}
 
 class PokemonLoaded extends PokemonListState {
   final List<PokemonModel> pokemonModel;
-  const PokemonLoaded(this.pokemonModel);
+  final List<String> pokemonTypeList;
+  const PokemonLoaded(this.pokemonModel, this.pokemonTypeList);
 }
 
 class PokemonListError extends PokemonListState {

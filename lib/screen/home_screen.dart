@@ -1,5 +1,3 @@
-
-
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
@@ -39,12 +37,14 @@ class _HomeScreenState extends State<HomeScreen> {
       } else if (state is PokemonLoaded) {
         return Scaffold(
           key: _scaffoldKey,
-          drawer: DrawerWidget(filterList: state.pokemonModel, ),
+          drawer: DrawerWidget(
+            filterList: state.pokemonModel,
+            typeofPokemon: state.pokemonTypeList,
+          ),
           appBar: AppBar(
             leading: IconButton(
               icon: Icon(Icons.filter_list_alt),
               onPressed: () {
-              
                 _scaffoldKey.currentState?.openDrawer();
               },
             ),
@@ -56,7 +56,7 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>  WishListScreen()));
+                          builder: (context) => WishListScreen()));
                     },
                     icon: Icon(Icons.favorite))
               ],
@@ -64,7 +64,10 @@ class _HomeScreenState extends State<HomeScreen> {
             actions: [
               IconButton(
                   onPressed: () {
-                    showSearch(context: context, delegate: SearchDelegation(searchList: state.pokemonModel));
+                    showSearch(
+                        context: context,
+                        delegate:
+                            SearchDelegation(searchList: state.pokemonModel));
                   },
                   icon: const Icon(Icons.search))
             ],
@@ -85,9 +88,8 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 }
 
-
 class SearchDelegation extends SearchDelegate {
-   List<PokemonModel> searchList = [];
+  List<PokemonModel> searchList = [];
   SearchDelegation({required this.searchList});
   @override
   List<Widget>? buildActions(BuildContext context) {
@@ -105,13 +107,17 @@ class SearchDelegation extends SearchDelegate {
 
   @override
   Widget buildResults(BuildContext context) {
-    context.read<PokemonSeachBloc>().add(SearchPokemonEvent(pokemonName: query, pokemonList: searchList));
+    context
+        .read<PokemonSeachBloc>()
+        .add(SearchPokemonEvent(pokemonName: query, pokemonList: searchList));
     return const SearchResultPage();
   }
 
   @override
   Widget buildSuggestions(BuildContext context) {
-    context.read<PokemonSeachBloc>().add(SearchPokemonEvent(pokemonName: query,  pokemonList: searchList));
+    context
+        .read<PokemonSeachBloc>()
+        .add(SearchPokemonEvent(pokemonName: query, pokemonList: searchList));
     return const SearchResultPage();
   }
 }

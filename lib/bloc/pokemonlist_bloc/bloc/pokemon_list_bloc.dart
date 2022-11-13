@@ -13,8 +13,18 @@ class PokemonListBloc extends Bloc<PokemonListEvent, PokemonListState> {
       try {
         emit(PokemonListLoading());
         await Future.delayed(const Duration(seconds: 1));
-        final getPokemon = await _apiRepository.getAllPokemon();
-        emit(PokemonLoaded(getPokemon));
+        final List<PokemonModel> getPokemon =
+            await _apiRepository.getAllPokemon();
+        final List<String> modelType = [];
+        for (var poekmonItem in getPokemon) {
+          poekmonItem.typeofpokemon?.forEach((typeOfPoekmon) {
+            if (!modelType.contains(typeOfPoekmon)) {
+              modelType.add(typeOfPoekmon);
+            }
+          });
+        }
+
+        emit(PokemonLoaded(getPokemon, modelType));
       } catch (e) {
         emit(PokemonListError(messageError: e.toString()));
       }

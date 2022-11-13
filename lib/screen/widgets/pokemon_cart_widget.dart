@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_project/bloc/addtofavourite_bloc/bloc/add_to_favourite_bloc.dart';
+import 'package:pokemon_project/bloc/pokemon_favourite/pokemon_favourite_bloc.dart';
+import 'package:pokemon_project/bloc/pokemon_favourite/pokemon_favourite_event.dart';
+import 'package:pokemon_project/bloc/pokemon_favourite/pokemon_favourite_state.dart';
 import 'package:pokemon_project/models/pokemon_model.dart';
 import 'package:pokemon_project/screen/pokemon_detail.dart';
 
@@ -16,8 +18,6 @@ class PokemonCartWidget extends StatefulWidget {
 
 class _PokemonCartWidgetState extends State<PokemonCartWidget> {
   @override
-  bool isFavourite = false;
-
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
@@ -82,34 +82,31 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                                 ),
                               ),
                             ),
-                            BlocBuilder<AddToFavouriteBloc,
-                                    AddToFavouriteState>(
-                                builder: ((context, state) {
-                              final id = widget.pokemonModel;
-
-                              if (state is AddToFavouriteLoaded) {
-                                return Container(
-                                  decoration: BoxDecoration(
-                                      color: Colors.black.withOpacity(0.05),
-                                      shape: BoxShape.circle),
-                                  child: IconButton(
-                                      onPressed: () {
-                                        setState(() {
-                                          isFavourite = !isFavourite;
-                                          print(widget.pokemonModel);
-                                        });
-                                      },
-                                      icon: Icon(
-                                        Icons.favorite,
-                                        color: !isFavourite
-                                            ? Colors.white
-                                            : Colors.red,
-                                      )),
+                            Container(
+                              decoration: BoxDecoration(
+                                  color: Colors.black.withOpacity(0.05),
+                                  shape: BoxShape.circle),
+                              child: IconButton(onPressed: () {
+                                context.read<PokemonFavouriteBloc>().add(
+                                    FavouriteClicked(
+                                        pokemonModel: widget.pokemonModel));
+                              }, icon: BlocBuilder<PokemonFavouriteBloc,
+                                      PokemonFavouriteState>(
+                                  builder: (context, state) {
+                                if (state is PokemonFavouriteSucessState &&
+                                    state.pokemonList
+                                        .contains(widget.pokemonModel)) {
+                                  return const Icon(
+                                    Icons.favorite,
+                                    color: Colors.red,
+                                  );
+                                }
+                                return const Icon(
+                                  Icons.favorite,
+                                  color: Colors.white,
                                 );
-                              } else {
-                                return Container();
-                              }
-                            })),
+                              })),
+                            ),
                           ],
                         ),
                         Text(
