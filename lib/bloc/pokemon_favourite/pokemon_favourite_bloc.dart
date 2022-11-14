@@ -1,18 +1,17 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:pokemon_project/models/pokemon_model.dart';
 
 import 'pokemon_favourite_state.dart';
 import 'pokemon_favourite_event.dart';
 
 class PokemonFavouriteBloc
     extends Bloc<PokemonFavouriteEvent, PokemonFavouriteState> {
-  final List<PokemonModel> _favouritePokemonList = [];
   PokemonFavouriteBloc() : super(PokemonFavouriteLoadingState()) {
     on<GetFavouriteList>((event, emit) async {
       try {
         emit(PokemonFavouriteLoadingState());
 
-        emit(PokemonFavouriteSucessState(pokemonList: _favouritePokemonList));
+        emit(PokemonFavouriteSucessState(
+            pokemonList: state.favouritePokemonList));
       } catch (e) {
         emit(PokemonFavouriteErrorState(messageError: e.toString()));
       }
@@ -20,12 +19,13 @@ class PokemonFavouriteBloc
     on<FavouriteClicked>((event, emit) async {
       try {
         emit(PokemonFavouriteLoadingState());
-        if (_favouritePokemonList.contains(event.pokemonModel)) {
-          _favouritePokemonList.remove(event.pokemonModel);
+        if (state.favouritePokemonList.contains(event.pokemonModel)) {
+          state.favouritePokemonList.remove(event.pokemonModel);
         } else {
-          _favouritePokemonList.add(event.pokemonModel);
+          state.favouritePokemonList.add(event.pokemonModel);
         }
-        emit(PokemonFavouriteSucessState(pokemonList: _favouritePokemonList));
+        emit(PokemonFavouriteSucessState(
+            pokemonList: state.favouritePokemonList));
       } catch (e) {
         emit(PokemonFavouriteErrorState(messageError: e.toString()));
       }

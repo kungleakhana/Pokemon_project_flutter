@@ -8,7 +8,6 @@ import 'package:pokemon_project/screen/pokemon_detail.dart';
 
 class PokemonCartWidget extends StatefulWidget {
   final PokemonModel pokemonModel;
-
   String? isActive;
   PokemonCartWidget({super.key, required this.pokemonModel, this.isActive});
 
@@ -32,7 +31,7 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Container(
             height: 150,
-            padding: const EdgeInsets.all(8),
+            padding: EdgeInsets.all(8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.green.withOpacity(0.3)),
               color: Colors.grey[100],
@@ -67,19 +66,16 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Expanded(
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 5),
-                                child: Text(
-                                  widget.pokemonModel.name ?? "",
-                                  style: const TextStyle(
-                                    fontSize: 18,
-                                    fontWeight: FontWeight.w600,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  maxLines: 2,
+                            Padding(
+                              padding: const EdgeInsets.symmetric(vertical: 5),
+                              child: Text(
+                                widget.pokemonModel.name ?? "",
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                  overflow: TextOverflow.ellipsis,
                                 ),
+                                maxLines: 2,
                               ),
                             ),
                             Container(
@@ -163,7 +159,7 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                       ],
                     ),
                   ),
-                ),
+                )
               ],
             ),
           ),

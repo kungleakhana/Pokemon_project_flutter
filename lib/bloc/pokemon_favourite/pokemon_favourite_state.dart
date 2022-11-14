@@ -2,6 +2,7 @@ import 'package:equatable/equatable.dart';
 import 'package:pokemon_project/models/pokemon_model.dart';
 
 abstract class PokemonFavouriteState extends Equatable {
+  final List<PokemonModel> favouritePokemonList = [];
   @override
   List<Object?> get props => [];
 }
@@ -16,5 +17,7 @@ class PokemonFavouriteSucessState extends PokemonFavouriteState {
 class PokemonFavouriteErrorState extends PokemonFavouriteState {
   final String messageError;
 
-  PokemonFavouriteErrorState({required this.messageError});
+  PokemonFavouriteErrorState({required this.messageError}) {
+    print("dd");
+  }
 }
