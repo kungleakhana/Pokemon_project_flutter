@@ -8,6 +8,7 @@ import 'package:pokemon_project/screen/pokemon_detail.dart';
 
 class PokemonCartWidget extends StatefulWidget {
   final PokemonModel pokemonModel;
+
   String? isActive;
   PokemonCartWidget({super.key, required this.pokemonModel, this.isActive});
 
@@ -31,7 +32,7 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
           padding: const EdgeInsets.symmetric(vertical: 4, horizontal: 8),
           child: Container(
             height: 150,
-            padding: EdgeInsets.all(8),
+            padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
               border: Border.all(color: Colors.green.withOpacity(0.3)),
               color: Colors.grey[100],
@@ -66,16 +67,19 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Padding(
-                              padding: const EdgeInsets.symmetric(vertical: 5),
-                              child: Text(
-                                widget.pokemonModel.name ?? "",
-                                style: const TextStyle(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                  overflow: TextOverflow.ellipsis,
+                            Expanded(
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 5),
+                                child: Text(
+                                  widget.pokemonModel.name ?? "",
+                                  style: const TextStyle(
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.w600,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  maxLines: 2,
                                 ),
-                                maxLines: 2,
                               ),
                             ),
                             Container(
@@ -126,40 +130,43 @@ class _PokemonCartWidgetState extends State<PokemonCartWidget> {
                         const SizedBox(
                           height: 5,
                         ),
-                        Row(
-                          children: [
-                            const Text(
-                              "Type",
-                              style: TextStyle(
-                                  fontSize: 14, fontWeight: FontWeight.w500),
-                            ),
-                            const SizedBox(
-                              height: 5,
-                              width: 5,
-                            ),
-                            Wrap(
-                              spacing: 5,
-                              children: List.generate(
-                                  widget.pokemonModel.typeofpokemon!.length,
-                                  (index) => Container(
-                                        decoration: BoxDecoration(
-                                          color: Colors.green.withOpacity(0.5),
-                                          // color: Colors.blue[200],
-                                          borderRadius:
-                                              BorderRadius.circular(5),
-                                        ),
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 3, horizontal: 10),
-                                        child: Text(widget.pokemonModel
-                                            .typeofpokemon![index]),
-                                      )),
-                            ),
-                          ],
+                        Expanded(
+                          child: Row(
+                            children: [
+                              const Text(
+                                "Type",
+                                style: TextStyle(
+                                    fontSize: 14, fontWeight: FontWeight.w500),
+                              ),
+                              const SizedBox(
+                                height: 5,
+                                width: 5,
+                              ),
+                              Wrap(
+                                spacing: 5,
+                                children: List.generate(
+                                    widget.pokemonModel.typeofpokemon!.length,
+                                    (index) => Container(
+                                          decoration: BoxDecoration(
+                                            color:
+                                                Colors.green.withOpacity(0.5),
+                                            // color: Colors.blue[200],
+                                            borderRadius:
+                                                BorderRadius.circular(5),
+                                          ),
+                                          padding: const EdgeInsets.symmetric(
+                                              vertical: 3, horizontal: 10),
+                                          child: Text(widget.pokemonModel
+                                              .typeofpokemon![index]),
+                                        )),
+                              ),
+                            ],
+                          ),
                         ),
                       ],
                     ),
                   ),
-                )
+                ),
               ],
             ),
           ),

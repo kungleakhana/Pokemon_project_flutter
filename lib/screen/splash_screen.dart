@@ -11,7 +11,7 @@ class SplashScreen extends StatelessWidget {
     return Scaffold(
       body: Stack(
         children: [
-          Container(
+          SizedBox(
             width: MediaQuery.of(context).size.width,
             height: MediaQuery.of(context).size.height,
             child: Image.asset(
@@ -23,18 +23,18 @@ class SplashScreen extends StatelessWidget {
             right: 0,
             top: MediaQuery.of(context).size.height / 4.5,
             child: Container(
-              padding: EdgeInsets.symmetric(horizontal: 8),
+              padding: const EdgeInsets.symmetric(horizontal: 8),
               // color: Colors.red,s
               child: Image(
                 fit: BoxFit.cover,
                 width: MediaQuery.of(context).size.width - 16,
-                image: AssetImage(
+                image: const AssetImage(
                   "lib/assets/images/pokemon.png",
                 ),
               ),
             ),
           ),
-          SpinKitCircle(
+          const SpinKitCircle(
             color: Colors.white,
             size: 50.0,
           )

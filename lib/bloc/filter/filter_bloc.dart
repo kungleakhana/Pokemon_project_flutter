@@ -1,7 +1,8 @@
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_project/bloc/filter/filter_event.dart';
 import 'package:pokemon_project/bloc/filter/fliter_state.dart';
-import 'package:pokemon_project/models/pokemon_type_model.dart';
+
+import '../../models/pokemon_type_model.dart';
 
 class FilterBloc extends Bloc<FilterEvent, FilterState> {
   List<PokemonTypeModel> _pokemonTypeList = [];
