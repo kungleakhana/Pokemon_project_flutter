@@ -11,34 +11,24 @@ class PokemonFilterBloc extends Bloc<FilterTypeEvent, PokemonFilterState> {
     on<FilterTypeEvent>((event, emit) async {
       try {
         var filterType = event.typeList;
-        var listOriginal = <PokemonModel>[];
-        var retriveedList = <String>[];
+        var listOriginal = event.listPokemon;
+
         List<PokemonModel> filterList = [];
 
         emit(PokemonFilterLoading());
         if (filterType.isNotEmpty) {
-          for (var pokemonItem in event.listPokemon) {
-            // final first
+          // final first
 
-            bool isContained =
-                filterType.any((i) => pokemonItem.typeofpokemon!.contains(i));
-            if (isContained) {
-              filterList.add(pokemonItem);
-            }
+          // pokemonItem.typeofpokemon?.forEach((type) {
+          //   final listPokemons = event.listPokemon
+          //       .where((p) => p.typeofpokemon.toString().contains(type));
 
-            print(filterList.length);
-
-            // pokemonItem.typeofpokemon?.forEach((type) {
-            //   final listPokemons = event.listPokemon
-            //       .where((p) => p.typeofpokemon.toString().contains(type));
-
-            //   if (filterType.contains(type)) {
-            //     filterList.add(pokemonItem);
-            //   } else {
-            //     filterList;
-            //   }
-            // });
-          }
+          //   if (filterType.contains(type)) {
+          //     filterList.add(pokemonItem);
+          //   } else {
+          //     filterList;
+          //   }
+          // });
 
           emit(PokemonFilterLoaded(
             pokemonFilterList: filterList,
