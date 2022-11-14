@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pokemon_project/bloc/pokemonfilter_bloc/bloc/pokemon_filter_bloc.dart';
 import 'package:pokemon_project/bloc/pokemonlist_bloc/bloc/pokemon_list_bloc.dart';
 import 'package:pokemon_project/models/pokemon_model.dart';
-import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
+import 'package:pokemon_project/screen/filter_screen.dart';
 
 class DrawerWidget extends StatefulWidget {
   List<PokemonModel> filterList = [];
@@ -16,7 +16,6 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-  bool isActive = false;
   List<String> selectedType = [];
 
   @override
@@ -49,88 +48,43 @@ class _DrawerWidgetState extends State<DrawerWidget> {
                 const SizedBox(
                   height: 5,
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 5),
-                  // child: Wrap(
-                  //   spacing: 5,
-                  //   runSpacing: 4,
-                  //   children: List.generate(
-                  //       widget.typeofPokemon.length,
-                  //       (index) => InkWell(
-                  //             onTap: () {
-                  //               setState(() {
-                  //                 if (selectedType
-                  //                     .contains(widget.typeofPokemon[index])) {
-                  //                   selectedType
-                  //                       .remove(widget.typeofPokemon[index]);
-                  //                 } else {
-                  //                   selectedType
-                  //                       .add(widget.typeofPokemon[index]);
-                  //                 }
-                  //               });
-                  //             },
-                  //             child: Container(
-                  //               decoration: BoxDecoration(
-                  //                 color: selectedType
-                  //                         .contains(state.filterType[index])
-                  //                     ? Colors.green.withOpacity(0.5)
-                  //                     : Colors.grey,
-                  //                 borderRadius: BorderRadius.circular(5),
-                  //               ),
-                  //               padding: const EdgeInsets.symmetric(
-                  //                   vertical: 3, horizontal: 10),
-                  //               child: Text(
-                  //                 state.filterType[index],
-                  //                 style: const TextStyle(color: Colors.black),
-                  //               ),
-                  //             ),
-                  //           )),
-
-                  // ),
-                ),
-                SizedBox(
-                  height: 500,
-                  width: double.infinity,
-                  child: ListView.builder(
-                    padding: const EdgeInsets.all(8),
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: widget.typeofPokemon.length,
-                    itemBuilder: (BuildContext context, int index) {
-                      return InkWell(
-                        onTap: () {
-                          setState(() {
-                            if (selectedType
-                                .contains(widget.typeofPokemon[index])) {
-                              selectedType.remove(widget.typeofPokemon[index]);
-                            } else {
-                              selectedType.add(widget.typeofPokemon[index]);
-                            }
-                          });
-                        },
-                        child: Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Container(
-                            decoration: BoxDecoration(
-                              color: selectedType
-                                      .contains(state.pokemonTypeList[index])
-                                  ? Colors.green.withOpacity(0.5)
-                                  : Colors.grey,
-                              borderRadius: BorderRadius.circular(5),
-                            ),
-                            padding: const EdgeInsets.symmetric(
-                                vertical: 3, horizontal: 10),
-                            child: Text(
-                              state.pokemonTypeList[index],
-                              style: const TextStyle(color: Colors.black),
-                            ),
-                          ),
-                        ),
-                      );
-                    },
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 5),
+                  child: Wrap(
+                    spacing: 5,
+                    runSpacing: 4,
+                    children: List.generate(
+                        widget.typeofPokemon.length,
+                        (index) => InkWell(
+                              onTap: () {
+                                setState(() {
+                                  if (selectedType
+                                      .contains(widget.typeofPokemon[index])) {
+                                    selectedType
+                                        .remove(widget.typeofPokemon[index]);
+                                  } else {
+                                    selectedType
+                                        .add(widget.typeofPokemon[index]);
+                                  }
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: selectedType.contains(
+                                          state.pokemonTypeList[index])
+                                      ? Colors.green.withOpacity(0.5)
+                                      : Colors.grey,
+                                  borderRadius: BorderRadius.circular(5),
+                                ),
+                                padding: const EdgeInsets.symmetric(
+                                    vertical: 3, horizontal: 10),
+                                child: Text(
+                                  state.pokemonTypeList[index],
+                                  style: const TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            )),
                   ),
-                ),
-                const SizedBox(
-                  height: 20,
                 ),
                 Row(
                   children: [
@@ -183,30 +137,5 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         // }
       }
     });
-  }
-}
-
-class FilterScreen extends StatelessWidget {
-  const FilterScreen({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      body: BlocBuilder<PokemonFilterBloc, PokemonFilterState>(
-        builder: (context, state) {
-          if (state is PokemonFilterLoaded) {
-            return ListView.builder(
-              itemCount: state.filterType.length,
-              itemBuilder: (context, index) {
-                return PokemonCartWidget(
-                  pokemonModel: state.pokemonFilterList[index],
-                );
-              },
-            );
-          }
-          return const SizedBox();
-        },
-      ),
-    );
   }
 }

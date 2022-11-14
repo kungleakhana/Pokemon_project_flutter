@@ -9,8 +9,7 @@ import 'package:pokemon_project/screen/pokemon_detail.dart';
 class PokemonCartWidget extends StatefulWidget {
   final PokemonModel pokemonModel;
 
-  String? isActive;
-  PokemonCartWidget({super.key, required this.pokemonModel, this.isActive});
+  const PokemonCartWidget({super.key, required this.pokemonModel});
 
   @override
   State<PokemonCartWidget> createState() => _PokemonCartWidgetState();

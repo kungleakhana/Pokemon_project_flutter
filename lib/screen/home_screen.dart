@@ -7,6 +7,7 @@ import 'package:pokemon_project/screen/search_result_page.dart';
 import 'package:pokemon_project/screen/splash_screen.dart';
 import 'package:pokemon_project/screen/widgets/drawer_filter_widget.dart';
 import 'package:pokemon_project/screen/widgets/pokemon_cart_widget.dart';
+import 'package:pokemon_project/screen/widgets/search_delegation_widget.dart';
 import 'package:pokemon_project/screen/wishlist_screen.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -19,9 +20,8 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final GlobalKey<ScaffoldState> _scaffoldKey = new GlobalKey<ScaffoldState>();
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
 
-  bool isClick = false;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<PokemonListBloc, PokemonListState>(
@@ -43,7 +43,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ),
           appBar: AppBar(
             leading: IconButton(
-              icon: Icon(Icons.filter_list_alt),
+              icon: const Icon(Icons.filter_list_alt),
               onPressed: () {
                 _scaffoldKey.currentState?.openDrawer();
               },
@@ -56,9 +56,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 IconButton(
                     onPressed: () {
                       Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => WishListScreen()));
+                          builder: (context) => const WishListScreen()));
                     },
-                    icon: Icon(Icons.favorite))
+                    icon: const Icon(Icons.favorite))
               ],
             ),
             actions: [
@@ -85,39 +85,5 @@ class _HomeScreenState extends State<HomeScreen> {
         return const SizedBox();
       }
     });
-  }
-}
-
-class SearchDelegation extends SearchDelegate {
-  List<PokemonModel> searchList = [];
-  SearchDelegation({required this.searchList});
-  @override
-  List<Widget>? buildActions(BuildContext context) {
-    return [];
-  }
-
-  @override
-  Widget? buildLeading(BuildContext context) {
-    return IconButton(
-        onPressed: () {
-          Navigator.of(context).pop();
-        },
-        icon: const Icon(Icons.clear));
-  }
-
-  @override
-  Widget buildResults(BuildContext context) {
-    context
-        .read<PokemonSeachBloc>()
-        .add(SearchPokemonEvent(pokemonName: query, pokemonList: searchList));
-    return const SearchResultPage();
-  }
-
-  @override
-  Widget buildSuggestions(BuildContext context) {
-    context
-        .read<PokemonSeachBloc>()
-        .add(SearchPokemonEvent(pokemonName: query, pokemonList: searchList));
-    return const SearchResultPage();
   }
 }
